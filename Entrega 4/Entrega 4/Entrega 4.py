@@ -42,25 +42,20 @@ def Ver_llamadas():
            3:"Editar_llamada()",4:"Eliminar_llamada()",5:"Exit  "}
     f.Connect()
     f.ShowCall(Login)
-    f.Exit()
     while True:
-        connected = False
         for key in Ver:
             print(key, Ver[key][:-2])
         print("\n")
         choice = input()
         try:
             if choice=="5":
+                f.Exit()
                 break
-            f.Connect()
-            connected = True
             eval(Ver[int(choice)][:])
             print("\n")
             f.Exit()
             
         except:
-            if connected:
-                f.Exit()
             print("Ingrese opción válida")
             print("\n")
         
