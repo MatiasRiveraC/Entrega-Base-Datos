@@ -1,6 +1,7 @@
 import psycopg2
-import Ver_llamadas as f
-from time import sleep
+import Ver_llamadas as v
+import Manejar_campañas as m
+
 conn = psycopg2.connect(database="grupo5",user = "grupo5",host ="201.238.213.114", port ="54321", password ="0BMxCm")
 
 cur = conn.cursor()
@@ -27,10 +28,10 @@ Main_Choices = {1:"Ver_llamadas()",2:"Evaluar_llamadas()",
 
 def Ver_llamadas():
     def Ver_llamadas():
-        f.ShowCallInfo(Login)
+        v.ShowCallInfo(Login)
         
     def Agregar_llamada():
-        f.InsertLlamada(Login)
+        v.InsertLlamada(Login)
         
     def Editar_llamada():
         print("Función: Editar_llamada")
@@ -40,8 +41,8 @@ def Ver_llamadas():
     
     Ver = {1:"Ver_llamadas()",2:"Agregar_llamada()",
            3:"Editar_llamada()",4:"Eliminar_llamada()",5:"Exit  "}
-    f.Connect()
-    f.ShowCall(Login)
+    v.Connect()
+    v.ShowCall(Login)
     while True:
         for key in Ver:
             print(key, Ver[key][:-2])
@@ -49,11 +50,10 @@ def Ver_llamadas():
         choice = input()
         try:
             if choice=="5":
-                f.Exit()
+                v.Exit()
                 break
             eval(Ver[int(choice)][:])
             print("\n")
-            f.Exit()
             
         except:
             print("Ingrese opción válida")
@@ -102,6 +102,8 @@ def Manejar_campañas():
     
     Ver = {1:"Agregar_campaña()",2:"Eliminar_campaña()",
            3:"Editar_campaña()",4:"Exit  "}
+    m.Connect()
+    m.Show_Campaigns_Tennant(Login)
     while True:
         for key in Ver:
             print(key, Ver[key][:-2])
@@ -109,6 +111,7 @@ def Manejar_campañas():
         choice = input()
         try:
             if choice=="4":
+                m.Exit()
                 break
             eval(Ver[int(choice)][:])
             print("\n")
