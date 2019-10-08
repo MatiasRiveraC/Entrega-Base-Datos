@@ -91,13 +91,13 @@ def Evaluar_llamadas():
     
 def Manejar_campañas():
     def Agregar_campaña():
-        print("Función: Agregar_campaña")
+        m.Agregar_Campaña(Login)
         
     def Eliminar_campaña():
-        print("Función: Eliminar_campaña")
+        m.Eliminar_campaña(Login)
         
     def Editar_campaña():
-        print("Función: Editar_campaña")
+        m.Editar_Campaña(Login)
         
     
     Ver = {1:"Agregar_campaña()",2:"Eliminar_campaña()",

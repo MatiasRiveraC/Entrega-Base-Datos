@@ -176,12 +176,12 @@ def ShowCallInfo(Login):
                     print("Id_Agente",a[8])
                     print("Id_Supervisor",a[9])
                     print("Id_Campaña",a[10])
-                    
                 cursor.close()
                 break
             else:
                 print("Ingrese Opcion Valida")
         except:
+                    
             print("Ingrese Opcion Valida")
 
 #Funcion para eliminar llamadas
