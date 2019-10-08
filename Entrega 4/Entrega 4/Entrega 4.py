@@ -157,21 +157,6 @@ def Manejar_tipificaciones():
 
 def Manejar_agentes():
     def Agregar_agente():
-        cur.execute("SELECT * FROM agente")
-        rows = cur.fetchall()
-        print(rows[-1])
-        LastID = rows[-1][0]
-        Rut = input("RUT (1234567-8): ")
-        Name = input("Nombre: ")
-        Apellidos = input("Apellidos (Unidos con guión bajo): ")
-        City = input("Ciudad: ")
-        Street = input("Nombre de Calle: ")
-        NumeroCalle = input("Numero de Calle: ")
-        NumeroTel = input("Numero teléfono (+56912345678): ")
-
-        
-        print("Last Agent ID:", LastID)
-        
         print("Agregar_agente")
 
     def Editar_informacion():
