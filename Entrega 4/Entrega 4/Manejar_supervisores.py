@@ -127,6 +127,7 @@ def EditarInformacion(id_tennant):
 def EliminarSupervisor(id_tennant):
     cursor=connection.cursor()
     lista= Mostrarsupervisor(id_tennant)
+    llama=[]
     d=True
     while(d==True):
         idd=input("Ingrese el  ID del supervisor: ")
@@ -137,6 +138,21 @@ def EliminarSupervisor(id_tennant):
                 sentencia="delete from supervisor where id_supervisor="+str(veri)
                 cursor.execute(sentencia)
                 connection.commit()
+                st="select * from llamadas where id_supervisor="+str(veri)
+                cursor.execute(st)
+                rows=cursor.fetchall()
+                for row in rows:
+                    llama.append(row[0])
+                sen="delete from llamadas where id_supervisor="+str(veri)
+                cursor.execute(sen)
+                connection.commit()
+                sent="delete from supervision where  id_supervisor="+str(veri)
+                cursor.execute(sent)
+                connection.commit()
+                for i in llama:
+                    sn="delete from respuestas_tipificaciones where id_llamada="+str(i)
+                    cursor.execute(sn)
+                    connection.commit()
                 print("Supervisor eliminado")
                 veri=False
                 d=False
@@ -157,6 +173,7 @@ def Exit():
 if __name__ == "__main__": 
     Connect()
     login=2
-    #EditarInformacion(2)
-    #AgregarSupervisor(2)
+    #EditarInformacion(login)
+    #AgregarSupervisor(login)
+    #EliminarSupervisor(login)
     Exit()
