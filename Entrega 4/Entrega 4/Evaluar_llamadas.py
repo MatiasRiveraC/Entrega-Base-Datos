@@ -109,7 +109,7 @@ def EditarCalificacion(id_tennant):
                 break
             else:
                 print("Ingrese opcion valida")
-            
+    cursor.close()
 
 
 def EliminarCalificacion(id_tennant):
@@ -134,6 +134,7 @@ def EliminarCalificacion(id_tennant):
             else:
                 d=False
                 break
+    cursor.close()
 
 def Connect():
     global connection
