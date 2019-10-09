@@ -1,6 +1,8 @@
 import psycopg2
 import Ver_llamadas as v
 import Manejar_campañas as m
+import Manejar_supervisores as ms
+import Evaluar_llamadas as e
 
 conn = psycopg2.connect(database="grupo5",user = "grupo5",host ="201.238.213.114", port ="54321", password ="0BMxCm")
 
@@ -63,17 +65,19 @@ def Ver_llamadas():
     
 def Evaluar_llamadas():
     def Agregar_calificacion():
-        print("Función: Agregar_calificacion")
+        e.AgregarCalificacion(Login)
         
     def Editar_calificacion():
-        print("Función: Editar_calificacion")
+        e.EditarCalificacion(Login)
         
     def Eliminar_calificacion():
-        print("Función: Eliminar_calificacion")
+        e.EditarCalificacion(Login)
         
     
     Ver = {1:"Agregar_calificacion()",2:"Editar_calificacion()",
            3:"Eliminar_calificacion()",4:"Exit  "}
+    e.Connect()
+    e.Mostrarllamadas(Login)
     while True:
         for key in Ver:
             print(key, Ver[key][:-2])
@@ -81,6 +85,7 @@ def Evaluar_llamadas():
         choice = input()
         try:
             if choice=="4":
+                e.Exit()
                 break
             eval(Ver[int(choice)][:])
             print("\n")
@@ -184,22 +189,25 @@ def Manejar_agentes():
 
 def Manejar_supervisores():
     def Agregar_supervisor():
-        print("Función: Agregar_supervisor")
+        ms.AgregarSupervisor(Login)
 
     def Editar_informacion():
-        print("Función: Editar_informacion")
+        ms.EditarInformacion(Login)
         
     def Eliminar_supervisor():
-        print("Función: Eliminar_supevisor")
+        ms.EliminarSupervisor(Login)
         
     Manejar = {1:"Agregar_supervisor()",2:"Editar_informacion()",
                3:"Eliminar_supervisor()",4:"Exit  "}
+    ms.Connect()
+    ms.Mostrarsupervisor(Login)
     while True:
         for key in Manejar:
             print(key, Manejar[key][:-2])
         choice = input()
         try:
             if choice == "4":
+                ms.Exit()
                 break
             eval(Manejar[int(choice)][:])
             print("\n")
