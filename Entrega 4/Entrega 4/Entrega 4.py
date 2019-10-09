@@ -3,6 +3,7 @@ import Ver_llamadas as v
 import Manejar_campañas as m
 import Manejar_supervisores as ms
 import Evaluar_llamadas as e
+import Manejar_agentes as ma
 
 conn = psycopg2.connect(database="grupo5",user = "grupo5",host ="201.238.213.114", port ="54321", password ="0BMxCm")
 
@@ -162,22 +163,25 @@ def Manejar_tipificaciones():
 
 def Manejar_agentes():
     def Agregar_agente():
-        print("Agregar_agente")
+        ma.Agregar_Agente(Login)
 
     def Editar_informacion():
-        print("Editar_informacion")
+        ma.Edit_Information(Login)
         
     def Eliminar_agente():
-        print("Eliminar_agente")
+        ma.Eliminar_Agente(Login)
         
     Manejar = {1:"Agregar_agente()",2:"Editar_informacion()",
                3:"Eliminar_agente()",4:"Exit  "}
+    ma.Connect()
+    ma.Show_Agentes(Login)
     while True:
         for key in Manejar:
             print(key, Manejar[key][:-2])
         choice = input()
         try:
             if choice == "4":
+                ma.Exit()
                 break
             eval(Manejar[int(choice)][:])
             print("\n")

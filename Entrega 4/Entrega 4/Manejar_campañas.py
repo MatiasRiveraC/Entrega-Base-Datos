@@ -92,7 +92,7 @@ def Editar_Campaña(Login):
             initDate = input("Fecha Inicio(2019-01-01): ")
             try:
                 cursor=connection.cursor()
-                sentencia="UPDATE campaign SET Fecha_Inicio='"+str(initDate)+"'"
+                sentencia="UPDATE campaign SET Fecha_Inicio='"+str(initDate)+"' where id_campaign ="+str(choice) 
                 cursor.execute(sentencia)
                 connection.commit()
                 cursor.close()
@@ -106,7 +106,7 @@ def Editar_Campaña(Login):
             endDate = input("Fecha Término(2019-02-01): ")
             try:
                 cursor=connection.cursor()
-                sentencia="UPDATE campaign SET Fecha_Termino='"+str(endDate)+"'"
+                sentencia="UPDATE campaign SET Fecha_Termino='"+str(endDate)+"' where id_campaign ="+str(choice) 
                 cursor.execute(sentencia)
                 connection.commit()
                 cursor.close()
@@ -120,7 +120,7 @@ def Editar_Campaña(Login):
             name = input("Nombre: ")
             try:
                 cursor=connection.cursor()
-                sentencia="UPDATE campaign SET Nombre='"+str(name)+"'"
+                sentencia="UPDATE campaign SET Nombre='"+str(name)+"'where id_campaign ="+str(choice) 
                 cursor.execute(sentencia)
                 connection.commit()
                 cursor.close()
