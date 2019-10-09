@@ -40,6 +40,7 @@ def menuEdit():
     print("4) calle")
     print("5) numero")
     print("6) telefono")
+    print("7) Exit")
     
         
 def AgregarSupervisor(id_tennant):
@@ -117,6 +118,10 @@ def EditarInformacion(id_tennant):
                 print("Cambio realizado!")
                 ver=False
                 d=False
+            elif opcion =="7":
+                ver=False
+                d=False
+                break
             else:
                 print("Ingrese opcion valida")
                 continue
@@ -133,8 +138,8 @@ def EliminarSupervisor(id_tennant):
         idd=input("Ingrese el  ID del supervisor: ")
         veri=verificar(lista,idd)
         while (veri==True):
-            YoN=input("Esta seguro? Y/N")
-            if (YoN=="Y" or YoN=="yes" or YoN=="Yes" or YoN=="YES"):
+            YoN=input("Esta seguro? Y/N ")
+            if YoN.lower() == "y":
                 sentencia="delete from supervisor where id_supervisor="+str(veri)
                 cursor.execute(sentencia)
                 connection.commit()
@@ -156,7 +161,7 @@ def EliminarSupervisor(id_tennant):
                 print("Supervisor eliminado")
                 veri=False
                 d=False
-            else:
+            elif YoN.lower() == "n":
                 d=False
                 break
     

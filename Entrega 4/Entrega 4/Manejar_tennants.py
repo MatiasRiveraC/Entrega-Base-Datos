@@ -69,8 +69,8 @@ def EliminarTennant():
         idd=input("Ingrese el  ID del tennant: ")
         veri=verificar(lista,idd)
         while (veri==True):
-            YoN=input("Esta seguro? Y/N")
-            if (YoN=="Y" or YoN=="yes" or YoN=="Yes" or YoN=="YES"):
+            YoN=input("Esta seguro? Y/N ")
+            if YoN.lower() == "y":
                 sentencia = "delete from tennant where id_tennant="+str(idd)
                 cursor.execute(sentencia)
                 connection.commit()
@@ -103,7 +103,7 @@ def EliminarTennant():
                 print("Supervisor eliminado")
                 veri=False
                 d=False
-            else:
+            elif YoN.lower() == "n":
                 d=False
                 break
     

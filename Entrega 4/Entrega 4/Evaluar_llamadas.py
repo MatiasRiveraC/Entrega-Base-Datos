@@ -120,8 +120,8 @@ def EliminarCalificacion(id_tennant):
         idllamada = input("Ingrese el ID de la llamada  a modificar: ")
         verifica = verificar(lista,idllamada)
         while(verifica==True):
-            YoN=input("Esta seguro? Y/N")
-            if (YoN=="Y" or YoN=="yes" or YoN=="Yes" or YoN=="YES"):
+            YoN=input("Esta seguro? Y/N ")
+            if YoN.lower() == "y":
                 sen="delete from supervision where id_llamada="+str(idllamada)
                 cursor.execute(sen)
                 connection.commit()
@@ -131,7 +131,7 @@ def EliminarCalificacion(id_tennant):
                 print("Calificacion eliminada!")
                 d=False
                 break
-            else:
+            elif YoN.lower() == "n":
                 d=False
                 break
     cursor.close()

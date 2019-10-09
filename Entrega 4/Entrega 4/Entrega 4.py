@@ -72,7 +72,7 @@ def Evaluar_llamadas():
         e.EditarCalificacion(Login)
         
     def Eliminar_calificacion():
-        e.EditarCalificacion(Login)
+        e.EliminarCalificacion(Login)
         
     
     Ver = {1:"Agregar_calificacion()",2:"Editar_calificacion()",
