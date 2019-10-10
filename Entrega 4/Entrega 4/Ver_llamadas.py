@@ -17,6 +17,16 @@ def CantidadLLamadas(Login):
         DiccLlamadas.append(a[0])
     cursor.close()
     return DiccLlamadas
+#Funcion que crea un alista con los id_llamadas existentes para un tennant dado
+def IdLlamadasPorTennant(Login):
+    cursor=connection.cursor()
+    DiccLlamadas=[]
+    cursor.execute("select l.id_llamada from (llamadas l join agente a on l.id_agente=a.id_agente) join tennant t on a.id_tennant = t.id_tennant where t.id_tennant ="+str(Login))
+    rows=cursor.fetchall()
+    for a in rows:
+        DiccLlamadas.append(a[0])
+    cursor.close()
+    return DiccLlamadas
     
 #Funcion que muestra agentes
 def mostrarAgentes(Login):
@@ -121,6 +131,7 @@ def IfInCampaign(Fecha,Login):
                         print("Ingrese opcion valida")
                 except:
                     print("Ingrese opcion Valida")
+                    
             
 #funcion para crear una llamda            
 def InsertLlamada(Login):
@@ -212,35 +223,120 @@ def KillCall(Login):
 
 #Funcion Editar llamadas
 def EditCall(Login):
+    DiccLlamadas=IdLlamadasPorTennant(Login)
     while True:
-        choice=input("Ingrese que opcion quiere editar\n1) Realizada\n1) Realizada\n")
+        choice=input("Ingrese Id_Llamada \n")
         try:
             choice=int(choice)
-            if choice==1:
-                pass
-            elif choice == 2:
-                pass
-            elif choice == 3:
-                pass
-            elif choice == 4:
-                pass
-            elif choice == 5:
-                pass
-            elif choice == 6:
-                pass
-            elif choice == 7:
-                pass
-            elif choice == 8:
-                pass
-            elif choice == 9:
-                pass
-            elif choice == 10:
-                pass
-            
+            if choice in DiccLlamadas:
+                cursor=connection.cursor()
+                while True:
+                    choice1=input("Ingrese que opcion que quiere editar\n1) Realizada\n2) Nombre Archivo\n3) Fecha Llamada\n4) Duración\n5) Transcripción\n6) Motivo\n7) Rut Cliente\n8) Id Agente\n9) Id_campaña\n10) Salir\n")
+                    try:
+                        choice1=int(choice1)
+                        if choice1==1:
+                            aux=TrueOrFalse("Ingrese true para llamada realizada o false para llamda recibida\n")
+                            sentencia="Update llamadas set realizada='"+str(aux)+"' where id_llamada ="+str(choice)
+                            cursor.execute(sentencia)
+                            connection.commit()
+                            print("EDICÓN REALIZADA")
+                            if YesOrNo("Desea hacer otra operacion? Y/N\n")=="n":
+                                break
+                        elif choice1 == 2:
+                            aux=input("Ingrese el nuevo nombre del archivo\n")
+                            sentencia="Update llamadas set nombre_archivo='"+str(aux)+"' where id_llamada ="+str(choice)
+                            cursor.execute(sentencia)
+                            connection.commit()
+                            print("EDICÓN REALIZADA")
+                            if YesOrNo("Desea hacer otra operacion? Y/N\n")=="n":
+                                break
+                        elif choice1== 3:
+                            aux=input("Ingrese la nueva fecha de llamda Ej: 2017-05-28\n")
+                            sentencia="Update llamadas set fecha_llamada='"+str(aux)+"' where id_llamada ="+str(choice)
+                            cursor.execute(sentencia)
+                            connection.commit()
+                            print("EDICÓN REALIZADA")
+                            if YesOrNo("Desea hacer otra operacion? Y/N\n")=="n":
+                                break
+                        elif choice1 == 4:
+                            aux=input("Ingrese la nueva duración de llamda Ej: 02:25:12\n")
+                            sentencia="Update llamadas set duracion='"+str(aux)+"' where id_llamada ="+str(choice)
+                            cursor.execute(sentencia)
+                            connection.commit()
+                            print("EDICÓN REALIZADA")
+                            if YesOrNo("Desea hacer otra operacion? Y/N\n")=="n":
+                                break
+                        elif choice1 == 5:
+                            aux=input("Ingrese la nueva transcripción del archivo\n")
+                            sentencia="Update llamadas set transcripcion='"+str(aux)+"' where id_llamada ="+str(choice)
+                            cursor.execute(sentencia)
+                            connection.commit()
+                            print("EDICÓN REALIZADA")
+                            if YesOrNo("Desea hacer otra operacion? Y/N\n")=="n":
+                                break
+                        elif choice1 == 6:
+                            aux=input("Ingrese el nuevo motivo del archivo\n")
+                            sentencia="Update llamadas set motivo='"+str(aux)+"' where id_llamada ="+str(choice)
+                            cursor.execute(sentencia)
+                            connection.commit()
+                            print("EDICÓN REALIZADA")
+                            if YesOrNo("Desea hacer otra operacion? Y/N\n")=="n":
+                                break
+                        elif choice1 == 7:
+                            Cliente= ChoosedClient()
+                            sentencia="Update llamadas set rut='"+str(Cliente)+"' where id_llamada ="+str(choice)
+                            cursor.execute(sentencia)
+                            connection.commit()
+                            print("EDICÓN REALIZADA")
+                            if YesOrNo("Desea hacer otra operacion? Y/N\n")=="n":
+                                break
+                        elif choice1 == 8:
+                            Agente= ChoosedAgent(Login)
+                            sentencia="Update llamadas set id_agente='"+str(Agente)+"' where id_llamada ="+str(choice)
+                            cursor.execute(sentencia)
+                            connection.commit()
+                            print("EDICÓN REALIZADA")
+                            if YesOrNo("Desea hacer otra operacion? Y/N\n")=="n":
+                                break
+                        elif choice1 == 9:
+                            sentencia="select fecha_llamada from llamadas where id_llamada="+str(choice)
+                            cursor.execute(sentencia)
+                            rows=cursor.fetchone()
+                            Fecha=str(rows[0])
+                            ListCampaign=ShowCampaigns(Fecha,Login)
+                            if len(ListCampaign)==0:
+                                break
+                            else:
+                                while True:
+                                    choice2=input("Seleccione un ID_campaña\n")
+                                    try:
+                                        choice2=int(choice2)
+                                        if choice2 in ListCampaign:
+                                            sentencia="Update llamadas set id_campaign="+str(choice2)+" where id_llamada ="+str(choice)
+                                            cursor.execute(sentencia)
+                                            connection.commit()
+                                            print("EDICÓN REALIZADA")
+                                            if YesOrNo("Desea hacer otra operacion? Y/N\n")=="n":
+                                                break
+                                        else:
+                                            print("Ingrese opcion valida")
+                                    except:
+                                        print("Ingrese opcion Valida")
+                        elif choice1 == 10:
+                            break
+                        
+                        else:
+                            print("Ingrese Opcion Valida")
+                    except:
+                        print("Ingrese Opcion Valida")  
+                cursor.close()
+                break
             else:
                 print("Ingrese Opcion Valida")
         except:
-            print("Ingrese Opcion Valida")  
+                    
+            print("Ingrese Opcion Valida")
+   
             
 #Funcion para hacer preguntas binarias
 def YesOrNo(pregunta):

@@ -34,10 +34,10 @@ def Ver_llamadas():
         v.InsertLlamada(Login)
         
     def Editar_llamada():
-        print("Función: Editar_llamada")
+        v.EditCall(Login)
         
     def Eliminar_llamada():
-        print("Función: Eliminar_llamada")
+        v.KillCall(Login)
     
     Ver = {1:"Ver_llamadas()",2:"Agregar_llamada()",
            3:"Editar_llamada()",4:"Eliminar_llamada()",5:"Exit  "}
