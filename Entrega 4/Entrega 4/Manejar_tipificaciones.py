@@ -55,7 +55,7 @@ def Showtipification(Login):
     cursor.execute(sentencia)
     rows=cursor.fetchall()
     if len(rows)!=0:
-        print("TIPIFICACIÓNES:")
+        print("TIPIFICACIONES:")
         for a in rows:
             print("Id_Pregunta:",a[0])
             print("Pregunta asociada:",a[2])

@@ -5,6 +5,7 @@ import Manejar_supervisores as ms
 import Evaluar_llamadas as e
 import Manejar_agentes as ma
 import Manejar_tennants as mt
+import Manejar_tipificaciones as mtipi
 
 conn = psycopg2.connect(database="grupo5",user = "grupo5",host ="201.238.213.114", port ="54321", password ="0BMxCm")
 
@@ -129,37 +130,44 @@ def Manejar_campañas():
 
 def Manejar_tipificaciones():
     def Agregar_tipificacion():
-        print("Función: Agregar_tipificacion")
+        mtipi.AddTipification(Login, choice2)
         
     def Asociar_tipificacion():
         print("Función: Asociar_tipificacion")
         
     def Eliminar_tipificacion():
-        print("Función: Eliminar_tipificacion")
+        mtipi.KillTipification(Login,choice2)
 
     def Editar_tipificacion():
-        print("Función: Editar_tipificacion")
+        mtipi.EditTipification(Login,choice2)
         
     def Editar_asociacion():
-        print("Función: Editar_asociacion")        
+        mtipi.EditAssociation(Login,choice2)       
     
     Ver = {1:"Agregar_tipificacion()",2:"Asociar_tipificacion()",
            3:"Eliminar_tipificacion()",4:"Editar_tipificacion()",
            5:"Editar_asociacion()",6:"Exit  "}
-    while True:
-        for key in Ver:
-            print(key, Ver[key][:-2])
-        print("\n")
-        choice = input()
-        try:
-            if choice=="6":
-                break
-            eval(Ver[int(choice)][:])
+    mtipi.Connect()
+    boolean, choice2 = mtipi.ChooseCampaign(Login)
+    if boolean:
+        while True:
+            for key in Ver:
+                print(key, Ver[key][:-2])
             print("\n")
-            
-        except:
-            print("Ingrese opción válida")
-            print("\n")
+            choice = input()
+            try:
+                if choice=="6":
+                    mtipi.Exit()
+                    break
+                eval(Ver[int(choice)][:])
+                print("\n")
+                
+            except:
+                print("Ingrese opción válida")
+                print("\n")
+    else:
+        mtipi.Exit()
+        return None
 
 
 def Manejar_agentes():
