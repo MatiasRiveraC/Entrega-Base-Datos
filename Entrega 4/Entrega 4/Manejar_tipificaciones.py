@@ -80,7 +80,51 @@ def AddTipification(Login,Choice):
     
 #Funcion para agregar un tipificacion en una llamada, esto se hace al asociar una campaña a una llamada
 def AddCampaignToCall(Login,Choice):
-    pass
+    ListAvailableCall=ListCall(Login,Choice)
+    if len(ListAvailableCall)==0:
+        return
+    else:
+        while True:
+            choice1=input("Seleccione un Id llamada\n")
+            try:
+                choice1=int(choice1)
+                if choice1 in ListAvailableCall:
+                    cursor=connection.cursor()
+                    sentencia="Update llamadas set id_campaign="+str(Choice)+" where id_llamada ="+str(choice1)
+                    cursor.execute(sentencia)
+                    connection.commit()
+                    print("EDICIÓN REALIZADA")
+                    break
+                else:
+                    print("Ingrese opcion valida")
+            except:
+                print("Ingrese opcion Valida")
+
+#Funcion que muestra todas las llamadas del tennant dentro de cierto rango de fechas, ademas de devolver una lista de las que exiten
+def ListCall(Login,Choice):
+    ListAvailableCall=[]
+    cursor=connection.cursor()
+    sentencia="select fecha_inicio, fecha_termino from campaign where id_campaign="+str(Choice)
+    cursor.execute(sentencia)
+    rows=cursor.fetchone()
+    FechaInicio=rows[0]
+    FechaTermino=rows[1]
+    sentencia="select id_llamada from (llamadas l join agente a on l.id_agente=a.id_agente) join tennant t on a.id_tennant = t.id_tennant where t.id_tennant ="+str(Login)+" and '"+str(FechaInicio)+"' <l.fecha_llamada and '"+str(FechaTermino)+"'> l.fecha_llamada"
+    cursor.execute(sentencia)
+    rows=cursor.fetchall()
+    if len(rows)!=0:
+        print("Llamadas disponibles para editar:")
+        for a in rows:
+            print("Id Llamada:",a[0])
+            ListAvailableCall.append(a[0])
+    else:
+        print("No hay llamadas a las cuales le puedas asociar esta campaña")
+    cursor.close()  
+    return ListAvailableCall
+
+
+
+
 
 #Funcion para eliminar una tipificacion de un campaña
 def KillTipification(Login,Choice):
@@ -110,6 +154,7 @@ def KillTipification(Login,Choice):
                 print("Ingrese Opcion Valida")
         except:
             print("Ingrese Opcion Valida")  
+            
 #Funcion que crear una lista de las tipificaciones existentes. Esta funcion para crear una lista la cual se usa para comprobar si es que un id pertencese a una pregunta real
 def CantidadTipificaciones(Login):
     cursor=connection.cursor()
@@ -169,7 +214,7 @@ def EditTipification(Login,Choice):
 #Funcion para editar asociacion ... por ahora nuestro modelo no calza con esta consulta
 # Asi q voy a escribirlo asi nomas pero no se si lo implementemos
 def EditAssociation(Login,Choice):
-    pass
+    print("Not yet implemented because of logic reasons")
 
 #Funcion que calcula el siguiente ID para insertar
 def nextIDPregunta():
@@ -225,4 +270,5 @@ def Exit():
 if __name__ == "__main__":  
     Connect()
     login=0
+    AddCampaignToCall(login,0)
     Exit()
