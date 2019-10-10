@@ -133,7 +133,7 @@ def Manejar_tipificaciones():
         mtipi.AddTipification(Login, choice2)
         
     def Asociar_tipificacion():
-        print("Función: Asociar_tipificacion")
+        mtipi.AddCampaignToCall(Login,choice2)
         
     def Eliminar_tipificacion():
         mtipi.KillTipification(Login,choice2)

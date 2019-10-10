@@ -78,6 +78,8 @@ def AddTipification(Login,Choice):
     cursor.execute(sentencia)
     connection.commit()
     print("Pregunta creada con exito")
+    print("-------------------------------")
+    Showtipification(Login)
     
 #Funcion para agregar un tipificacion en una llamada, esto se hace al asociar una campaña a una llamada
 def AddCampaignToCall(Login,Choice):
@@ -95,6 +97,8 @@ def AddCampaignToCall(Login,Choice):
                     cursor.execute(sentencia)
                     connection.commit()
                     print("EDICIÓN REALIZADA")
+                    print("-------------------------------")
+                    Showtipification(Login)
                     break
                 else:
                     print("Ingrese opcion valida")
@@ -146,10 +150,13 @@ def KillTipification(Login,Choice):
                     connection.commit()
                     cursor.close()
                     print("Pregunta Eliminada")
+                    print("-------------------------------")
+                    Showtipification(Login)
                     break
                 else:
                     sure1=YesOrNo("Desea borrar otra pregunta? Y/N \n")
                     if sure1=="n": 
+                        
                         break
             else:
                 print("Ingrese Opcion Valida")
@@ -205,6 +212,8 @@ def EditTipification(Login,Choice):
                     except:
                         print("Ingrese Opcion Valida")  
                 cursor.close()
+                print("-------------------------------")
+                Showtipification(Login)
                 break
             else:
                 print("Ingrese Opcion Valida")
@@ -216,6 +225,8 @@ def EditTipification(Login,Choice):
 # Asi q voy a escribirlo asi nomas pero no se si lo implementemos
 def EditAssociation(Login,Choice):
     print("Not yet implemented because of logic reasons")
+    print("-------------------------------")
+    Showtipification(Login)
 
 #Funcion que calcula el siguiente ID para insertar
 def nextIDPregunta():
@@ -271,5 +282,4 @@ def Exit():
 if __name__ == "__main__":  
     Connect()
     login=0
-    ChooseCampaign(login)
     Exit()
