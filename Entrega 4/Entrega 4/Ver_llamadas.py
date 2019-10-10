@@ -239,7 +239,7 @@ def EditCall(Login):
                             sentencia="Update llamadas set realizada='"+str(aux)+"' where id_llamada ="+str(choice)
                             cursor.execute(sentencia)
                             connection.commit()
-                            print("EDICÓN REALIZADA")
+                            print("EDICIÓN REALIZADA")
                             if YesOrNo("Desea hacer otra operacion? Y/N\n")=="n":
                                 break
                         elif choice1 == 2:
@@ -247,7 +247,7 @@ def EditCall(Login):
                             sentencia="Update llamadas set nombre_archivo='"+str(aux)+"' where id_llamada ="+str(choice)
                             cursor.execute(sentencia)
                             connection.commit()
-                            print("EDICÓN REALIZADA")
+                            print("EDICIÓN REALIZADA")
                             if YesOrNo("Desea hacer otra operacion? Y/N\n")=="n":
                                 break
                         elif choice1== 3:
@@ -255,7 +255,7 @@ def EditCall(Login):
                             sentencia="Update llamadas set fecha_llamada='"+str(aux)+"' where id_llamada ="+str(choice)
                             cursor.execute(sentencia)
                             connection.commit()
-                            print("EDICÓN REALIZADA")
+                            print("EDICIÓN REALIZADA")
                             if YesOrNo("Desea hacer otra operacion? Y/N\n")=="n":
                                 break
                         elif choice1 == 4:
@@ -263,7 +263,7 @@ def EditCall(Login):
                             sentencia="Update llamadas set duracion='"+str(aux)+"' where id_llamada ="+str(choice)
                             cursor.execute(sentencia)
                             connection.commit()
-                            print("EDICÓN REALIZADA")
+                            print("EDICIÓN REALIZADA")
                             if YesOrNo("Desea hacer otra operacion? Y/N\n")=="n":
                                 break
                         elif choice1 == 5:
@@ -271,7 +271,7 @@ def EditCall(Login):
                             sentencia="Update llamadas set transcripcion='"+str(aux)+"' where id_llamada ="+str(choice)
                             cursor.execute(sentencia)
                             connection.commit()
-                            print("EDICÓN REALIZADA")
+                            print("EDICIÓN REALIZADA")
                             if YesOrNo("Desea hacer otra operacion? Y/N\n")=="n":
                                 break
                         elif choice1 == 6:
@@ -279,7 +279,7 @@ def EditCall(Login):
                             sentencia="Update llamadas set motivo='"+str(aux)+"' where id_llamada ="+str(choice)
                             cursor.execute(sentencia)
                             connection.commit()
-                            print("EDICÓN REALIZADA")
+                            print("EDICIÓN REALIZADA")
                             if YesOrNo("Desea hacer otra operacion? Y/N\n")=="n":
                                 break
                         elif choice1 == 7:
@@ -287,7 +287,7 @@ def EditCall(Login):
                             sentencia="Update llamadas set rut='"+str(Cliente)+"' where id_llamada ="+str(choice)
                             cursor.execute(sentencia)
                             connection.commit()
-                            print("EDICÓN REALIZADA")
+                            print("EDICIÓN REALIZADA")
                             if YesOrNo("Desea hacer otra operacion? Y/N\n")=="n":
                                 break
                         elif choice1 == 8:
@@ -295,7 +295,7 @@ def EditCall(Login):
                             sentencia="Update llamadas set id_agente='"+str(Agente)+"' where id_llamada ="+str(choice)
                             cursor.execute(sentencia)
                             connection.commit()
-                            print("EDICÓN REALIZADA")
+                            print("EDICIÓN REALIZADA")
                             if YesOrNo("Desea hacer otra operacion? Y/N\n")=="n":
                                 break
                         elif choice1 == 9:
@@ -315,7 +315,7 @@ def EditCall(Login):
                                             sentencia="Update llamadas set id_campaign="+str(choice2)+" where id_llamada ="+str(choice)
                                             cursor.execute(sentencia)
                                             connection.commit()
-                                            print("EDICÓN REALIZADA")
+                                            print("EDICIÓN REALIZADA")
                                             if YesOrNo("Desea hacer otra operacion? Y/N\n")=="n":
                                                 break
                                         else:
