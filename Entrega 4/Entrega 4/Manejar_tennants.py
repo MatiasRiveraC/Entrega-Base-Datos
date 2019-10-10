@@ -58,7 +58,29 @@ def LlamadasEliminar(listaAgente):
     return ll
 
 def EditarInformacion():
-    pass
+    cursor=connection.cursor()
+    lista=MostrarTennant()
+    d=True
+    while (d==True):
+        ten=input("Ingrese el ID del tennant a modificar: ")
+        ver=verificar(lista,ten)
+        while (ver==True):
+            print("Que quiere editar: ")
+            print("1) Nombre")
+            opci=input("Ingrese una opcion: ")
+            if (opci=="1"):
+                nombre=input("Ingrese el nombre: ")
+                sentencia = "update tennant set nombre='"+str(nombre)+"' where id_tennant="+str(ten)
+                cursor.execute(sentencia)
+                connection.commit()
+                print("Cambio realizado!")
+                ver=False
+                d=False
+            else:
+                print("Ingrese opcion valida")
+                continue
+        
+    cursor.close()
 
 def EliminarTennant():
     cursor=connection.cursor()
@@ -120,5 +142,6 @@ if __name__ == "__main__":
     Connect()
     #AgregarTennant()
     #EliminarTennant()
+    #EditarInformacion()
     
     Exit()

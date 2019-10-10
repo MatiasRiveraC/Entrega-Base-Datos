@@ -1,4 +1,4 @@
-import psycopg2
+teimport psycopg2
 import Ver_llamadas as v
 import Manejar_campañas as m
 import Manejar_supervisores as ms
