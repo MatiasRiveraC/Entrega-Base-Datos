@@ -34,7 +34,7 @@ def ShowCampaigns(Login):
 def ChooseCampaign(Login):
     ListCampaign=ShowCampaigns(Login)
     if len(ListCampaign)==0:
-        return (True,-1)
+        return (False,-1)
     else:
         while True:
             choice=input("Seleccione un ID_campaña\n")
