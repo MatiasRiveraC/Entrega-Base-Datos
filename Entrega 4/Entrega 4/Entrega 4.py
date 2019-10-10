@@ -1,9 +1,10 @@
-teimport psycopg2
+import psycopg2
 import Ver_llamadas as v
 import Manejar_campañas as m
 import Manejar_supervisores as ms
 import Evaluar_llamadas as e
 import Manejar_agentes as ma
+import Manejar_tennants as mt
 
 conn = psycopg2.connect(database="grupo5",user = "grupo5",host ="201.238.213.114", port ="54321", password ="0BMxCm")
 
@@ -222,22 +223,25 @@ def Manejar_supervisores():
     
 def Manejar_tennants():
     def Agregar_tennant():
-        print("Función: Agregar_tennant")
+        mt.AgregarTennant()
 
     def Editar_informacion():
-        print("Función: Editar_informacion")
+        mt.EditarInformacion()
         
     def Eliminar_tennant():
-        print("Función: Eliminar_tennant")
+        mt.EliminarTennant()
         
     Manejar = {1:"Agregar_tennant()",2:"Editar_informacion()",
                3:"Eliminar_tennant()",4:"Exit  "}
+    mt.Connect()
+    mt.MostrarTennant()
     while True:
         for key in Manejar:
             print(key, Manejar[key][:-2])
         choice = input()
         try:
             if choice == "4":
+                mt.Exit()
                 break
             eval(Manejar[int(choice)][:])
             print("\n")

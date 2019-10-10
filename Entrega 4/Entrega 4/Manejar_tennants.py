@@ -67,6 +67,7 @@ def EditarInformacion():
         while (ver==True):
             print("Que quiere editar: ")
             print("1) Nombre")
+            print("2) Exit")
             opci=input("Ingrese una opcion: ")
             if (opci=="1"):
                 nombre=input("Ingrese el nombre: ")
@@ -76,6 +77,10 @@ def EditarInformacion():
                 print("Cambio realizado!")
                 ver=False
                 d=False
+            elif opci == "2":
+                ver=False
+                d=False
+                break
             else:
                 print("Ingrese opcion valida")
                 continue
@@ -122,7 +127,7 @@ def EliminarTennant():
                 campa="delete from tennants_campaigns where id_tennant="+str(idd)
                 cursor.execute(campa)
                 connection.commit()
-                print("Supervisor eliminado")
+                print("Tennant eliminado")
                 veri=False
                 d=False
             elif YoN.lower() == "n":
