@@ -41,7 +41,7 @@ def ChooseCampaign(Login):
             try:
                 choice=int(choice)
                 if choice in ListCampaign:
-                    Showtipification(Login,choice)
+                    Showtipification(Login)
                     return (True,choice)
                 else:
                     print("Ingrese opcion valida")
@@ -55,6 +55,7 @@ def Showtipification(Login):
     cursor.execute(sentencia)
     rows=cursor.fetchall()
     if len(rows)!=0:
+        print("TIPIFICACIÓNES:")
         for a in rows:
             print("Id_Pregunta:",a[0])
             print("Pregunta asociada:",a[2])
@@ -270,5 +271,5 @@ def Exit():
 if __name__ == "__main__":  
     Connect()
     login=0
-    AddCampaignToCall(login,0)
+    ChooseCampaign(login)
     Exit()
