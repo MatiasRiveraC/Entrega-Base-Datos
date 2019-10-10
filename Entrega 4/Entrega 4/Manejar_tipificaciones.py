@@ -30,7 +30,7 @@ def ShowCampaigns(Login):
     cursor.close()  
     return ListCampaign
 
-
+#Funcion para elegir campaña y mostrar las tipificaciones
 def ChooseCampaign(Login):
     ListCampaign=ShowCampaigns(Login)
     if len(ListCampaign)==0:
@@ -48,7 +48,8 @@ def ChooseCampaign(Login):
             except:
                 print("Ingrese opcion Valida")
 
-def Showtipification(Login,choice):
+#Funcion para mostrar las tipificaciones
+def Showtipification(Login):
     cursor=connection.cursor()
     sentencia="select t.id_pregunta, t.tipo_dato,t.pregunta_asociada from (tipificaciones_campaign tic join tipificacion t on tic.id_pregunta = t.id_pregunta) join tennants_campaigns tec on tec.id_campaign = tic.id_campaign where tic.id_campaign="+str(Login)
     cursor.execute(sentencia)
@@ -63,10 +64,138 @@ def Showtipification(Login,choice):
         print("No hay tipifiaciones para esta campaña")
     cursor.close()  
 
+#Funcion para agregar tipifiaciones
+def AddTipification(Login,Choice):
+    cursor=connection.cursor()
+    Id=nextIDPregunta()
+    Question = input("Ingrese la pregunta que quiere crear\n")
+    Type=ChooseType()
+    sentencia="insert into tipificacion values ("+str(Id)+",'"+str(Type)+"','"+str(Question)+"')"
+    cursor.execute(sentencia)
+    connection.commit()
+    sentencia="insert into tipificaciones_campaign values ("+str(Login)+","+str(Id)+")"
+    cursor.execute(sentencia)
+    connection.commit()
+    print("Pregunta creada con exito")
+    
+#Funcion para agregar un tipificacion en una llamada, esto se hace al asociar una campaña a una llamada
+def AddCampaignToCall(Login,Choice):
+    pass
 
+#Funcion para eliminar una tipificacion de un campaña
+def KillTipification(Login,Choice):
+    ListTipificacione=CantidadTipificaciones(Login)
+    while True:
+        choice=input("Ingrese Id_Pregunta \n")
+        try:
+            choice=int(choice)
+            if choice in ListTipificacione:
+                sure=YesOrNo("Estas seguro que quieres eliminar esta pregunta? Y/N \n")
+                if sure=="y":
+                    cursor=connection.cursor()
+                    sentencia="delete from tipificaciones_campaign where id_pregunta="+str(choice)
+                    cursor.execute(sentencia)
+                    connection.commit()
+                    sentencia="delete from tipificacion where id_pregunta="+str(choice)
+                    cursor.execute(sentencia)
+                    connection.commit()
+                    cursor.close()
+                    print("Pregunta Eliminada")
+                    break
+                else:
+                    sure1=YesOrNo("Desea borrar otra pregunta? Y/N \n")
+                    if sure1=="n": 
+                        break
+            else:
+                print("Ingrese Opcion Valida")
+        except:
+            print("Ingrese Opcion Valida")  
+#Funcion que crear una lista de las tipificaciones existentes. Esta funcion para crear una lista la cual se usa para comprobar si es que un id pertencese a una pregunta real
+def CantidadTipificaciones(Login):
+    cursor=connection.cursor()
+    ListTipificacione=[]
+    sentencia="select t.id_pregunta from (tipificaciones_campaign tic join tipificacion t on tic.id_pregunta = t.id_pregunta) join tennants_campaigns tec on tec.id_campaign = tic.id_campaign where tic.id_campaign="+str(Login)
+    cursor.execute(sentencia)
+    rows=cursor.fetchall()
+    for a in rows:
+        ListTipificacione.append(a[0])
+    cursor.close()
+    return ListTipificacione
 
+#Funcion para editar tipificacion
+def EditTipification(Login,Choice):
+    ListTipificacione=CantidadTipificaciones(Login)
+    while True:
+        choice=input("Ingrese Id_Pregunta \n")
+        try:
+            choice=int(choice)
+            if choice in ListTipificacione:
+                cursor=connection.cursor()
+                while True:
+                    choice1=input("Ingrese que opcion que quiere editar\n1) Sentencia de la Pregunta\n2) Tipo de respuesta\n3) Salir\n")
+                    try:
+                        choice1=int(choice1)
+                        if choice1==1:
+                            aux=input("Ingrese la nueva pregunta\n")
+                            sentencia="Update tipificacion set pregunta_asociada='"+str(aux)+"' where id_pregunta ="+str(choice)
+                            cursor.execute(sentencia)
+                            connection.commit()
+                            print("EDICIÓN REALIZADA")
+                            if YesOrNo("Desea hacer otra operacion? Y/N\n")=="n":
+                                break
+                        elif choice1 == 2:
+                            aux=ChooseType()
+                            sentencia="Update tipificacion set tipo_dato='"+str(aux)+"' where id_pregunta ="+str(choice)
+                            cursor.execute(sentencia)
+                            connection.commit()
+                            print("EDICIÓN REALIZADA")
+                            if YesOrNo("Desea hacer otra operacion? Y/N\n")=="n":
+                                break
+                        elif choice1== 3:
+                                break
+                            
+                        else:
+                            print("Ingrese Opcion Valida")
+                    except:
+                        print("Ingrese Opcion Valida")  
+                cursor.close()
+                break
+            else:
+                print("Ingrese Opcion Valida")
+        except:
+                    
+            print("Ingrese Opcion Valida")
 
+#Funcion para editar asociacion ... por ahora nuestro modelo no calza con esta consulta
+# Asi q voy a escribirlo asi nomas pero no se si lo implementemos
+def EditAssociation(Login,Choice):
+    pass
 
+#Funcion que calcula el siguiente ID para insertar
+def nextIDPregunta():
+    cursor=connection.cursor()
+    cursor.execute("SELECT * FROM tipificacion order by id_pregunta desc limit 1")
+    rows=cursor.fetchone()
+    nextIDLlamada=rows[0]+1
+    cursor.close()
+    return nextIDLlamada
+
+#Funcion para elegir el tipo de respuesta a la pregunta
+def ChooseType():
+    while True:
+        answ=input("Seleccione el tipo de respuesta a su pregunta\n1)string\n2)int\n3)bool\n")
+        try:
+            answ=int(answ)
+            if answ ==1:
+                return "string"
+            elif answ==2:
+                return "int"
+            elif answ == 3:
+                return "bool"
+            else:
+                print("Ingrese Opcion Valida")
+        except:
+            print("Ingrese Opcion Valida")
 
 
 
@@ -96,5 +225,4 @@ def Exit():
 if __name__ == "__main__":  
     Connect()
     login=0
-    ChooseCampaign(login)
     Exit()
