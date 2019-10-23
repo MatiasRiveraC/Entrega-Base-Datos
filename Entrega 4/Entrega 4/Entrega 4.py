@@ -6,6 +6,7 @@ import Evaluar_llamadas as e
 import Manejar_agentes as ma
 import Manejar_tennants as mt
 import Manejar_tipificaciones as mtipi
+import Estadisticas as est
 
 conn = psycopg2.connect(database="grupo5",user = "grupo5",host ="201.238.213.114", port ="54321", password ="0BMxCm")
 
@@ -29,7 +30,7 @@ for row in rows:
 Main_Choices = {1:"Ver_llamadas()",2:"Evaluar_llamadas()",
                 3:"Manejar_campañas()",4:"Manejar_tipificaciones()",
                 5:"Manejar_agentes()",6:"Manejar_supervisores()",
-                7:"Manejar_tennants()",8:"Exit  "}
+                7:"Manejar_tennants()",8:"Estadisticas()", 9:"Exit  "}
 
 def Ver_llamadas():
     def Ver_llamadas():
@@ -257,6 +258,37 @@ def Manejar_tennants():
             print("Ingrese una opción válida")
             print("\n")
 
+def Estadisticas():
+    def Llamadas_por_tennant():
+        est.GraphRealizada(Login)
+
+    def Evaluaciones():
+        est.GraphNotas(Login)
+        
+    def Agentes():
+        est.GraphLlamadasPorAgente(Login)
+    
+    def Supervisores():
+        est.GraphRendimientoSupervisor(Login)
+        
+    Manejar = {1:"Llamadas_por_tennant()",2:"Evaluaciones()",
+               3:"Agentes()",4:"Supervisores()", 5:"Exit  "}
+    est.Connect()
+    while True:
+        for key in Manejar:
+            print(key, Manejar[key][:-2])
+        choice = input()
+        try:
+            if choice == "5":
+                est.Exit()
+                break
+            eval(Manejar[int(choice)][:])
+            print("\n")
+        except:
+            print("Ingrese una opción válida")
+            print("\n")
+
+
 
 #############################################  LOGIN
 while True:
@@ -281,7 +313,7 @@ while True:
     print("\n")
     choice = input("Ingrese una opción: ")
     try:
-        if choice=="8":
+        if choice=="9":
             break
         eval(Main_Choices[int(choice)][:])
         print("\n")
