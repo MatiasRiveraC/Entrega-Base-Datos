@@ -115,7 +115,7 @@ def ShowCampaigns(Fecha,Login):
 #Funcion para seleccionar de las campañas disponibles
 def IfInCampaign(Fecha,Login):
     answ=YesOrNo("Desea que su llamada pertenesca a una campaña Y/N \n")
-    if ans =="y": 
+    if answ =="y": 
         ListCampaign=ShowCampaigns(Fecha,Login)
         if len(ListCampaign)==0:
             return "null"
@@ -131,6 +131,8 @@ def IfInCampaign(Fecha,Login):
                         print("Ingrese opcion valida")
                 except:
                     print("Ingrese opcion Valida")
+    else:
+        return "null"
                     
             
 #funcion para crear una llamda            
@@ -141,12 +143,13 @@ def InsertLlamada(Login):
     cursor=connection.cursor()
     nombre_archivo= str(input("Nombre del archivo \n"))
     Fecha=str(input("Ingrese fecha EJ: 2017-05-28 \n"))
+    Hora=str(input("Ingrese la hora de la llamada EJ: 00:25:12 Hora:Minutos:Segundos \n"))
     Duracion=str(input("Ingrese duracion EJ: 00:25:12 Hora:Minutos:Segundos \n"))
     Transcripcion=str(input("Ingrese transcripcion \n"))
     Motivo=str(input("Ingrese motivo \n"))
     Supervisor="null"
     Campaign= IfInCampaign(Fecha,Login)
-    sentencia="Insert into llamadas values("+str(nextIDLlamada())+","+str(realizada)+",'"+str(nombre_archivo)+"','"+str(Fecha)+"','"+str(Duracion)+"','"+str(Transcripcion)+"','"+str(Motivo)+"','"+str(Cliente)+"',"+str(Agente)+","+str(Supervisor)+","+str(Campaign)+")"
+    sentencia="Insert into llamadas values("+str(nextIDLlamada())+","+str(realizada)+",'"+str(nombre_archivo)+"','"+str(Fecha)+"','"+str(Hora)+"','"+str(Duracion)+"','"+str(Transcripcion)+"','"+str(Motivo)+"','"+str(Cliente)+"',"+str(Agente)+","+str(Supervisor)+","+str(Campaign)+")"
     cursor.execute(sentencia)
     connection.commit()
     cursor.close()
@@ -171,7 +174,7 @@ def ShowCallInfo(Login):
             choice=int(choice)
             if choice in DiccLlamadas:
                 cursor=connection.cursor()
-                sentencia="select l.id_llamada,l.realizada,l.nombre_archivo,l.fecha_llamada,l.duracion,l.transcripcion,l.motivo,l.rut,l.id_agente,l.id_supervisor,l.id_campaign from (llamadas l join agente a on l.id_agente=a.id_agente) join tennant t on a.id_tennant = t.id_tennant where l.id_llamada ="+str(choice)+" and t.id_tennant ="+str(Login)
+                sentencia="select l.id_llamada,l.realizada,l.nombre_archivo,l.fecha_llamada,l.duracion,l.transcripcion,l.motivo,l.rut,l.id_agente,l.id_supervisor,l.id_campaign,l.hora from (llamadas l join agente a on l.id_agente=a.id_agente) join tennant t on a.id_tennant = t.id_tennant where l.id_llamada ="+str(choice)+" and t.id_tennant ="+str(Login)
                 cursor.execute(sentencia)
                 rows=cursor.fetchall()
                 for a in rows:
@@ -180,6 +183,7 @@ def ShowCallInfo(Login):
                     print("Realizada:",a[1])
                     print("Nombre Archivo:",a[2])
                     print("Fecha Llamada:",a[3])
+                    print("Hora de la llamada:",a[11])
                     print("Duracion:",a[4])
                     print("Transcripcion:",a[5])
                     print("Motivo:",a[6])
@@ -231,7 +235,7 @@ def EditCall(Login):
             if choice in DiccLlamadas:
                 cursor=connection.cursor()
                 while True:
-                    choice1=input("Ingrese que opcion que quiere editar\n1) Realizada\n2) Nombre Archivo\n3) Fecha Llamada\n4) Duración\n5) Transcripción\n6) Motivo\n7) Rut Cliente\n8) Id Agente\n9) Id_campaña\n10) Salir\n")
+                    choice1=input("Ingrese que opcion que quiere editar\n1) Realizada\n2) Nombre Archivo\n3) Fecha Llamada\n4) Duración\n5) Transcripción\n6) Motivo\n7) Rut Cliente\n8) Id Agente\n9) Id_campaña\n10) Hora Llamada\n11) Salir\n")
                     try:
                         choice1=int(choice1)
                         if choice1==1:
@@ -323,6 +327,15 @@ def EditCall(Login):
                                     except:
                                         print("Ingrese opcion Valida")
                         elif choice1 == 10:
+                            aux=input("Ingrese la nueva hora de llamda Ej: 02:25:12\n")
+                            sentencia="Update llamadas set hora='"+str(aux)+"' where id_llamada ="+str(choice)
+                            cursor.execute(sentencia)
+                            connection.commit()
+                            print("EDICIÓN REALIZADA")
+                            if YesOrNo("Desea hacer otra operacion? Y/N\n")=="n":
+                                break
+                        
+                        elif choice1==11:
                             break
                         
                         else:
@@ -365,9 +378,8 @@ def Exit():
     connection.close()
 #Main work area    
 if __name__ == "__main__":  
-    Login=0
-    #InsertLlamada(Login)
-    #ShowCallInfo(Login)
-    #KillCall(Login)
+    Connect()
+    login=0
+    InsertLlamada(login)
     Exit()
 

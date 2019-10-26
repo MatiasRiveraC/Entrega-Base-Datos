@@ -174,8 +174,8 @@ def Exit():
 if __name__ == "__main__":  
     Connect()
     login=0
-    GraphRealizada(login)
+    #GraphRealizada(login)
     #GraphNotas(login)
     #GraphLlamadasPorAgente(login)
-    #GraphRendimientoSupervisor(login)
+    GraphRendimientoSupervisor(login)
     Exit()
