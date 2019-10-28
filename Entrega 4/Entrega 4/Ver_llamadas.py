@@ -142,9 +142,9 @@ def InsertLlamada(Login):
     realizada= TrueOrFalse("Ingrese si la llamda fue realizada por el agente (True) o realizada por el cliente (False) \n")
     cursor=connection.cursor()
     nombre_archivo= str(input("Nombre del archivo \n"))
-    Fecha=str(input("Ingrese fecha EJ: 2017-05-28 \n"))
-    Hora=str(input("Ingrese la hora de la llamada EJ: 00:25:12 Hora:Minutos:Segundos \n"))
-    Duracion=str(input("Ingrese duracion EJ: 00:25:12 Hora:Minutos:Segundos \n"))
+    Fecha=str(input("Ingrese fecha EJ: 2017-5-28 \n"))
+    Hora=str(input("Ingrese la hora de la llamada EJ: 0:2:12 Hora:Minutos:Segundos \n"))
+    Duracion=str(input("Ingrese duracion EJ: 0:2:12 Hora:Minutos:Segundos \n"))
     Transcripcion=str(input("Ingrese transcripcion \n"))
     Motivo=str(input("Ingrese motivo \n"))
     Supervisor="null"
@@ -255,7 +255,7 @@ def EditCall(Login):
                             if YesOrNo("Desea hacer otra operacion? Y/N\n")=="n":
                                 break
                         elif choice1== 3:
-                            aux=input("Ingrese la nueva fecha de llamda Ej: 2017-05-28\n")
+                            aux=input("Ingrese la nueva fecha de llamda Ej: 2017-5-28\n")
                             sentencia="Update llamadas set fecha_llamada='"+str(aux)+"' where id_llamada ="+str(choice)
                             cursor.execute(sentencia)
                             connection.commit()
@@ -263,7 +263,7 @@ def EditCall(Login):
                             if YesOrNo("Desea hacer otra operacion? Y/N\n")=="n":
                                 break
                         elif choice1 == 4:
-                            aux=input("Ingrese la nueva duración de llamda Ej: 02:25:12\n")
+                            aux=input("Ingrese la nueva duración de llamda Ej: 2:5:12\n")
                             sentencia="Update llamadas set duracion='"+str(aux)+"' where id_llamada ="+str(choice)
                             cursor.execute(sentencia)
                             connection.commit()
@@ -327,7 +327,7 @@ def EditCall(Login):
                                     except:
                                         print("Ingrese opcion Valida")
                         elif choice1 == 10:
-                            aux=input("Ingrese la nueva hora de llamda Ej: 02:25:12\n")
+                            aux=input("Ingrese la nueva hora de llamda Ej: 2:2:12\n")
                             sentencia="Update llamadas set hora='"+str(aux)+"' where id_llamada ="+str(choice)
                             cursor.execute(sentencia)
                             connection.commit()

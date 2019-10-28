@@ -66,6 +66,7 @@ def GraphNotas(Login):
     
     # Add some text for labels, title and custom x-axis tick labels, etc.
     ax.set_ylabel('Frecuencia')
+    ax.set_xlabel("Notas")
     ax.set_title('Llamadas evaluadas de '+name)
     ax.set_xticks(x)
     ax.set_xticklabels(ListLabel)
