@@ -1,0 +1,113 @@
+1)
+
+Function:
+
+CREATE FUNCTION no_acomplamiento_agente()
+RETURNS trigger
+AS $$
+import datetime
+val = plpy.execute("SELECT hora, duracion,fecha_llamada FROM llamadas WHERE rut = '{}'".format(TD["new"]["rut"]))
+for line in val:
+    aux0=line["fecha_llamada"].split("-")
+    aux1=line["hora"].split(":")
+    auxdelt=line["duracion"].split(":")
+    auxnewfecha=TD["new"]["fecha_llamada"].split("-")
+    auxnewhour=TD["new"]["hora"].split(":")
+    oldhour=datetime.datetime(int(aux0[0]),int(aux0[1]),int(aux0[2]),int(aux1[0]),int(aux1[1]),int(aux1[2]))
+    deltahour=datetime.timedelta(hours=int(auxdelt[0]),minutes=int(auxdelt[1]),seconds=int(auxdelt[2]))
+    newhour=datetime.datetime(int(auxnewfecha[0]),int(auxnewfecha[1]),int(auxnewfecha[2]),int(auxnewhour[0]),int(auxnewhour[1]),int(auxnewhour[2]))
+    auxhour=oldhour+deltahour
+    if auxhour> newhour:
+        return "skip"
+return "ok"
+$$ LANGUAGE plpythonu;
+
+
+
+Trigger:
+
+CREATE TRIGGER no_acoplamiento_de_agentes before insert or update ON llamadas
+FOR EACH ROW EXECUTE PROCEDURE no_acomplamiento_agente();
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2)
+
+CREATE FUNCTION permitir_evaluacion ()
+RETURNS trigger
+AS $$
+val = plpy.execute("SELECT id_llamada FROM supervision WHERE id_llamada = {} ".format(TD["new"]["id_llamada"]))
+for row in val:
+	if val != ""  :
+		return "skip"
+	else:
+		return "ok"
+$$ LANGUAGE plpythonu;
+
+
+Trigger:
+
+create trigger evaluacion_permitida before insert on supervision
+for each row execute procedure permitir_evaluacion();
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+3) No se hizo debido a que el caso pedido es imposible que suceda en nuestra base de datos. Para mayor explicación por favor consulte los supuestos enviados junto a este documento.
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+4)
+
+Funcion:
+
+CREATE FUNCTION no_acomplamiento_rut ()
+RETURNS trigger
+AS $$
+import datetime
+val = plpy.execute("SELECT hora, duracion,fecha_llamada FROM llamadas WHERE rut = '{}'".format(TD["new"]["rut"]))
+for line in val:
+    aux0=line["fecha_llamada"].split("-")
+    aux1=line["hora"].split(":")
+    auxdelt=line["duracion"].split(":")
+    auxnewfecha=TD["new"]["fecha_llamada"].split("-")
+    auxnewhour=TD["new"]["hora"].split(":")
+    oldhour=datetime.datetime(int(aux0[0]),int(aux0[1]),int(aux0[2]),int(aux1[0]),int(aux1[1]),int(aux1[2]))
+    deltahour=datetime.timedelta(hours=int(auxdelt[0]),minutes=int(auxdelt[1]),seconds=int(auxdelt[2]))
+    newhour=datetime.datetime(int(auxnewfecha[0]),int(auxnewfecha[1]),int(auxnewfecha[2]),int(auxnewhour[0]),int(auxnewhour[1]),int(auxnewhour[2]))
+    auxhour=oldhour+deltahour
+    if auxhour> newhour:
+        return "skip"
+return "ok"
+$$ LANGUAGE plpythonu;
+
+
+
+Trigger:
+
+CREATE TRIGGER no_acoplamiento_de_clientes before insert or update ON llamadas
+FOR EACH ROW EXECUTE PROCEDURE no_acomplamiento_rut();
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+5)
+
+Funcion:
+
+CREATE FUNCTION campaign_not_ded ()
+RETURNS trigger
+AS $$
+FechaLlamada = plpy.execute("SELECT fecha_llamada FROM llamadas WHERE id_llamada = {}".format(TD["new"]["id_llamada"]))
+RangoFechasCampaign = plpy.execute("SELECT fecha_inicio, fecha_termino FROM campaign WHERE id_campaign = {}".format(TD["new"]["id_campaign"]))
+if Fechallamda[0]["fecha_llamada"] > RangoFechasCampaign[0][fecha_inicio] and Fechallamda[0]["fecha_llamada"] < RangoFechasCampaign[0][fecha_termino]:
+	return "ok"
+else:
+	return "skip"
+$$ LANGUAGE plpythonu;
+
+
+
+Trigger:
+
+CREATE TRIGGER Campaing_Vencida after insert or update ON llamadas
+FOR EACH ROW EXECUTE PROCEDURE campaign_not_ded ();
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
